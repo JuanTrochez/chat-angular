@@ -33,14 +33,30 @@
                     <button type="submit">Inscrire</button>
                 </form>
             </div>
+
+            <div class="channels">
+                channels:
+                <div ng-repeat="channel in channelList">
+                    <a ui-sref="channel({channelId: channel.id})" ui-sref-active="active" class="primary">{{channel.name}}</a>                    
+                </div>
+            </div>
+
+            <div class="users">
+                users
+                <div ng-repeat="user in userList">{{user.pseudo}}</div>
+            </div>
         </div>
-        <ul>
-            <li ng-repeat="msg in messages track by $index">{{msg.pseudo}} : {{msg.message}}</li>
-        </ul>
-        <div id="tampon"></div>
-        <form ng-submit="sendMessage()" class="send-message">
-            <input ng-model="userMessage" autocomplete="off" /><button>Send</button>
-        </form>
+        
+        <ui-view>
+            <ul>
+                <li ng-repeat="msg in messages track by $index">{{msg.pseudo}} : {{msg.message}}</li>
+            </ul>
+            
+            <div id="tampon"></div>
+            <form ng-submit="sendMessage()" class="send-message">
+                <input ng-model="userMessage" autocomplete="off" /><button>Send</button>
+            </form>
+        </ui-view>
 
 
 
@@ -54,8 +70,8 @@
 
         <!--routes-->
         <script src="app/routes/routes.js"></script>
-        
-        
+
+
         <script src="app/factories/httpFactory.js"></script>
         <script src="app/factories/messageFactory.js"></script>
         <script src="app/factories/userFactory.js"></script>
@@ -63,6 +79,7 @@
 
         <!--controllers-->
         <script src="app/controllers/mainCtrl.js"></script>
+        <script src="app/controllers/channelCtrl.js"></script>
 
 
     </body>

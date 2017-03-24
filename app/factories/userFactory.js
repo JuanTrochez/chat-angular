@@ -8,7 +8,7 @@ app.factory("userFactory", [function () {
             this.client = client;
         };
 
-        userFactory.getMessagesById = function (id) {
+        userFactory.getAll = function () {
             
         };
         

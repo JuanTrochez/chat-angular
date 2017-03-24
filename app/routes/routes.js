@@ -4,6 +4,8 @@ app.config(function ($stateProvider) {
     var channelState = {
         name: 'channel',
         url: '/channel/{channelId:int}',
+        templateUrl: 'app/views/list-message.html',
+        controller: "channelCtrl"
     };
     
     var userState = {
