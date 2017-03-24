@@ -1,6 +1,16 @@
 <!DOCTYPE html>
 <html>
     <head>
+    
+    	<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		
+		<!-- jQuery library -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+		
+		<!-- Latest compiled JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		
         <meta charset="utf-8">
         <title>Socket.IO chat</title>
         <style>
@@ -17,33 +27,50 @@
     </head>
 
     <body ng-app="myChat" ng-controller="MainController">
-        <div class="sidebar">
-            Channels
-            <div class="connect-form" ng-hide="isConnected">
-                <form ng-submit="connectUser()">
-                    <input name="pseudo" type="text" ng-model="userForm.pseudo" placeholder="login" />
-                    <input name="password" type="password" ng-model="userForm.password" placeholder="mot de passe" />
-                    <button type="submit">Connecter</button>
-                </form>
-            </div>
-            <div class="inscritpion-form" ng-hide="isConnected">
-                <form ng-submit="insertUser()">
-                    <input name="pseudo" type="text" ng-model="userInscription.pseudo" placeholder="login" />
-                    <input name="password" type="password" ng-model="userInscription.password" placeholder="mot de passe" />
-                    <button type="submit">Inscrire</button>
-                </form>
-            </div>
+        
+        <div class="container">
+  			
+  			<div class="row">
+  			
+  				<div class="col-xs-5">
+			        <div class="sidebar">
+			            
+			            <h3>Channels</h3>
+			             
+			            <div class="connect-form" ng-hide="isConnected" style="padding-bottom: 30px;padding-top: 30px;">
+			                <form ng-submit="connectUser()">
+			                    <input name="pseudo" type="text" ng-model="userForm.pseudo" class="" placeholder="login" />
+			                    <input name="password" type="password" ng-model="userForm.password" placeholder="mot de passe" />
+			                    <button type="submit" class="btn btn-primary">Connecter</button>
+			                </form>
+			            </div>
+			            <div class="inscritpion-form" ng-hide="isConnected">
+			                <form ng-submit="insertUser()">
+			                    <input name="pseudo" type="text" ng-model="userInscription.pseudo" class=" " placeholder="login" />
+			                    <input name="password" type="password" ng-model="userInscription.password" placeholder="mot de passe" />
+			                    <button type="submit" class="btn btn-primary">Inscrire</button>
+			                </form>
+			            </div>
+			        </div>
+		        </div>
+		        
+        		<div class="col-xs-7">
+        	
+        			<ul>
+            			<li style="margin-right:-72px;" ng-repeat="msg in messages track by $index">{{msg.pseudo}} : {{msg.message}}</li>
+        			</ul>
+        			
+        			<div id="tampon"></div>
+        			
+        			<form ng-submit="sendMessage()" class="send-message">
+            			<input ng-model="userMessage" autocomplete="off" /><button>Send</button>
+        			</form>
+        			
+        		</div>
+
+        	</div>
         </div>
-        <ul>
-            <li ng-repeat="msg in messages track by $index">{{msg.pseudo}} : {{msg.message}}</li>
-        </ul>
-        <div id="tampon"></div>
-        <form ng-submit="sendMessage()" class="send-message">
-            <input ng-model="userMessage" autocomplete="off" /><button>Send</button>
-        </form>
-
-
-
+        
         <script src="node_modules/socket.io-client/dist/socket.io.js"></script>
 
 
