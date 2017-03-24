@@ -6,9 +6,9 @@
         <style>
             * { margin: 0; padding: 0; box-sizing: border-box; }
             body { font: 13px Helvetica, Arial; }
-            form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
-            form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
-            form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
+            form.send-message { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
+            form.send-message input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
+            form.send-message button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
             ul { list-style-type: none; margin: 0; padding: 0; }
             ul li { padding: 5px 10px; }
             ul li:nth-child(odd) { background: #eee; }
@@ -17,14 +17,46 @@
     </head>
 
     <body ng-app="myChat" ng-controller="MainController">
-        <div class="sidebar">Channels</div>
-        <ul>
-            <li ng-repeat="msg in messages track by $index">{{msg}}</li>
-        </ul>
-        <div id="tampon"></div>
-        <form ng-submit="sendMessage()">
-            <input ng-model="userMessage" autocomplete="off" /><button>Send</button>
-        </form>
+        <div class="sidebar">
+            Channels
+            <div class="connect-form" ng-hide="isConnected">
+                <form ng-submit="connectUser()">
+                    <input name="pseudo" type="text" ng-model="userForm.pseudo" placeholder="login" />
+                    <input name="password" type="password" ng-model="userForm.password" placeholder="mot de passe" />
+                    <button type="submit">Connecter</button>
+                </form>
+            </div>
+            <div class="inscritpion-form" ng-hide="isConnected">
+                <form ng-submit="insertUser()">
+                    <input name="pseudo" type="text" ng-model="userInscription.pseudo" placeholder="login" />
+                    <input name="password" type="password" ng-model="userInscription.password" placeholder="mot de passe" />
+                    <button type="submit">Inscrire</button>
+                </form>
+            </div>
+
+            <div class="channels">
+                channels:
+                <div ng-repeat="channel in channelList">
+                    <a ui-sref="channel({channelId: channel.id})" ui-sref-active="active" class="primary">{{channel.name}}</a>                    
+                </div>
+            </div>
+
+            <div class="users">
+                users
+                <div ng-repeat="user in userList">{{user.pseudo}}</div>
+            </div>
+        </div>
+        
+        <ui-view>
+            <ul>
+                <li ng-repeat="msg in messages track by $index">{{msg.pseudo}} : {{msg.message}}</li>
+            </ul>
+            
+            <div id="tampon"></div>
+            <form ng-submit="sendMessage()" class="send-message">
+                <input ng-model="userMessage" autocomplete="off" /><button>Send</button>
+            </form>
+        </ui-view>
 
 
 
@@ -39,8 +71,15 @@
         <!--routes-->
         <script src="app/routes/routes.js"></script>
 
+
+        <script src="app/factories/httpFactory.js"></script>
+        <script src="app/factories/messageFactory.js"></script>
+        <script src="app/factories/userFactory.js"></script>
+        <script src="app/factories/channelFactory.js"></script>
+
         <!--controllers-->
         <script src="app/controllers/mainCtrl.js"></script>
+        <script src="app/controllers/channelCtrl.js"></script>
 
 
     </body>
