@@ -54,18 +54,18 @@ app.get("/user/connect/:pseudo/:password", function (req, res) {
 app.get("/user/inscription/:pseudo/:password", function (req, res) {
     var data = {pseudo: req.params.pseudo, password: req.params.password};
 
-    connection.query("INSERT INTO user set ? ",data, function(err, rows){
-      if (err || rows == ""){
-        response.valid = false;
-        response.message = "Error while adding the user ";
-        response.data = [];
-      } else {
-          console.log();
-        response.valid = true;
-        response.message = "Success adding user ";
-        response.data = rows;
-      }
-      res.json(response);
+    connection.query("INSERT INTO user set ? ", data, function (err, rows) {
+        if (err || rows == "") {
+            response.valid = false;
+            response.message = "Error while adding the user ";
+            response.data = [];
+        } else {
+            rows.pseudo = data.pseudo;
+            response.valid = true;
+            response.message = "Success adding user ";
+            response.data = rows;
+        }
+        res.json(response);
     });
 });
 
@@ -79,11 +79,13 @@ var response = {
 
 io.on('connection', function (socket) {
 //    console.log('User connected');
-    socket.emit('chat_message_post', {valid: true, message: "[Server] Welcome"});
-    socket.broadcast.emit('chat_message_post', {valid: true, message: '[Server] New user connected!'});
+    socket.emit('chat_message_post', {valid: true, pseudo: "[Server]", message: "Welcome"});
+    socket.broadcast.emit('chat_message_post', {valid: true, pseudo: "[Server]", message: 'New user connected!'});
 
     socket.on('chat_message_post', function (data) {
         console.log('Message:', data);
+        var pseudo = data.pseudo;
+        delete data.pseudo;
 
         connection.query("INSERT INTO message set ? ", data, function (err, rows) {
             if (err || rows == "") {
@@ -95,12 +97,12 @@ io.on('connection', function (socket) {
             } else {
                 response.valid = true;
                 response.message = data.message;
+                response.pseudo = pseudo;
                 response.data = data;
+                
                 io.emit('chat_message_post', response);
             }
         });
-        console.log("response", response);
-
 
     });
 

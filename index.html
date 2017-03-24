@@ -19,14 +19,14 @@
     <body ng-app="myChat" ng-controller="MainController">
         <div class="sidebar">
             Channels
-            <div class="connect-form">
+            <div class="connect-form" ng-hide="isConnected">
                 <form ng-submit="connectUser()">
                     <input name="pseudo" type="text" ng-model="userForm.pseudo" placeholder="login" />
                     <input name="password" type="password" ng-model="userForm.password" placeholder="mot de passe" />
                     <button type="submit">Connecter</button>
                 </form>
             </div>
-            <div class="inscritpion-form">
+            <div class="inscritpion-form" ng-hide="isConnected">
                 <form ng-submit="insertUser()">
                     <input name="pseudo" type="text" ng-model="userInscription.pseudo" placeholder="login" />
                     <input name="password" type="password" ng-model="userInscription.password" placeholder="mot de passe" />
@@ -35,7 +35,7 @@
             </div>
         </div>
         <ul>
-            <li ng-repeat="msg in messages track by $index">{{msg}}</li>
+            <li ng-repeat="msg in messages track by $index">{{msg.pseudo}} : {{msg.message}}</li>
         </ul>
         <div id="tampon"></div>
         <form ng-submit="sendMessage()" class="send-message">
