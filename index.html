@@ -18,7 +18,7 @@
 
     <body ng-app="myChat" ng-controller="MainController">
         <div class="sidebar">
-            Channels
+            
             <div class="connect-form" ng-hide="isConnected">
                 <form ng-submit="connectUser()">
                     <input name="pseudo" type="text" ng-model="userForm.pseudo" placeholder="login" />
@@ -35,14 +35,14 @@
             </div>
 
             <div class="channels">
-                channels:
+                <h1>channels:</h1>
                 <div ng-repeat="channel in channelList">
                     <a ui-sref="channel({channelId: channel.id})" ui-sref-active="active" class="primary">{{channel.name}}</a>                    
                 </div>
             </div>
 
             <div class="users">
-                users
+                <h1>users</h1>
                 <div ng-repeat="user in userList">{{user.pseudo}}</div>
             </div>
         </div>
